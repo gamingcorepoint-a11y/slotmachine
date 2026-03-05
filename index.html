@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🎰 Casino Slot</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+  <h1 class="title">🎰 CASINO SLOT</h1>
+
+  <div class="topbar">
+    <div class="stat">Coins: <span id="coins">{{ coins }}</span></div>
+    <div class="stat">Free Spins: <span id="freespins">{{ free_spins }}</span></div>
+    <div class="stat">Jackpot: <span id="jackpot">{{ jackpot }}</span></div>
+  </div>
+
+  <div class="statsbar">
+    <div class="stat2">Spins: <span id="spins">{{ stats.spins }}</span></div>
+    <div class="stat2">Wins: <span id="wins">{{ stats.wins }}</span></div>
+    <div class="stat2">Biggest Win: <span id="bigwin">{{ stats.biggest }}</span></div>
+  </div>
+
+  <div class="betbar">
+    <div class="label">BET / LINE</div>
+    <button class="betbtn" data-bet="1">1€</button>
+    <button class="betbtn" data-bet="5">5€</button>
+    <button class="betbtn" data-bet="10">10€</button>
+    <div class="hint">Total bet = Bet × 25 lines (Free Spins cost 0)</div>
+  </div>
+
+  <div class="slot-machine">
+    <div class="row">
+      <div class="cell" id="c00"></div><div class="cell" id="c01"></div><div class="cell" id="c02"></div><div class="cell" id="c03"></div><div class="cell" id="c04"></div>
+    </div>
+    <div class="row">
+      <div class="cell" id="c10"></div><div class="cell" id="c11"></div><div class="cell" id="c12"></div><div class="cell" id="c13"></div><div class="cell" id="c14"></div>
+    </div>
+    <div class="row">
+      <div class="cell" id="c20"></div><div class="cell" id="c21"></div><div class="cell" id="c22"></div><div class="cell" id="c23"></div><div class="cell" id="c24"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="spinBtn">SPIN</button>
+    <button class="autobtn" data-auto="10">AUTO 10</button>
+    <button class="autobtn" data-auto="50">AUTO 50</button>
+    <button class="autobtn" data-auto="100">AUTO 100</button>
+    <button id="stopAutoBtn">STOP</button>
+  </div>
+
+  <h2 id="result"></h2>
+
+  <div id="bonusOverlay" class="overlay hidden">
+    <div class="overlayCard">
+      <div class="overlayTitle">🎁 BONUS GAME</div>
+      <div class="overlayText">Pick a chest:</div>
+      <div class="chests">
+        <button class="chestBtn" data-chest="1">🧰 Chest 1</button>
+        <button class="chestBtn" data-chest="2">🧰 Chest 2</button>
+        <button class="chestBtn" data-chest="3">🧰 Chest 3</button>
+      </div>
+      <div class="overlayHint">Bonus is automatic payout (dev mode)</div>
+      <button id="closeBonusBtn" class="closeBtn">Close</button>
+    </div>
+  </div>
+
+  <div id="explosion"></div>
+
+  <audio id="spinSound" src="/static/spin.mp3"></audio>
+  <audio id="winSound" src="/static/win.mp3"></audio>
+  <audio id="jackpotSound" src="/static/jackpot.mp3"></audio>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

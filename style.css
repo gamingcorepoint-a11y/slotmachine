@@ -1,0 +1,226 @@
+body{
+    background:#0d0d0f;
+    color:white;
+    text-align:center;
+    font-family:Arial;
+    margin:0;
+    padding:0;
+}
+
+.title{
+    font-size:52px;
+    color:gold;
+    margin:24px 0 10px 0;
+    text-shadow:0 0 12px rgba(255,215,0,0.35);
+}
+
+.topbar, .statsbar{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+    margin:10px 0;
+}
+
+.stat, .stat2{
+    font-size:20px;
+    color:gold;
+    padding:8px 14px;
+    border:2px solid #b58b00;
+    border-radius:12px;
+    background:#121214;
+    box-shadow:0 0 14px rgba(255,215,0,0.15);
+}
+
+.betbar{
+    margin:10px auto 18px auto;
+    max-width:860px;
+    padding:12px;
+    border:2px solid #b58b00;
+    border-radius:16px;
+    background:#121214;
+}
+
+.betbar .label{
+    color:gold;
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.betbar .hint{
+    margin-top:10px;
+    font-size:14px;
+    color:#c9b46a;
+}
+
+.betbtn{
+    background:#1c1c20;
+    color:white;
+    border:2px solid #4a4a52;
+    padding:10px 16px;
+    font-size:18px;
+    border-radius:12px;
+    cursor:pointer;
+    margin:0 6px;
+}
+
+.betbtn.active{
+    background:gold;
+    color:black;
+    border-color:gold;
+}
+
+.slot-machine{
+    margin:18px auto;
+    width:760px;
+    max-width:95vw;
+    padding:18px;
+    border:3px solid gold;
+    border-radius:20px;
+    background:#09090b;
+    box-shadow:0 0 26px rgba(255,215,0,0.30);
+}
+
+.row{
+    display:flex;
+    justify-content:center;
+}
+
+.cell{
+    background:black;
+    border:5px solid gold;
+    border-radius:14px;
+    width:122px;
+    height:122px;
+    font-size:72px;
+    line-height:122px;
+    margin:6px;
+    box-shadow:0 0 16px rgba(255,215,0,0.45);
+    user-select:none;
+}
+
+.win{
+    box-shadow:0 0 24px gold, 0 0 44px #ffd84d;
+    background:#161616;
+}
+
+.payline{
+    outline:4px solid #ff2d2d;
+    outline-offset:-4px;
+}
+
+.controls{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:12px 0 0 0;
+}
+
+.controls button{
+    background:#c10000;
+    color:white;
+    border:none;
+    padding:14px 22px;
+    font-size:20px;
+    border-radius:14px;
+    cursor:pointer;
+    box-shadow:0 0 14px rgba(193,0,0,0.25);
+}
+
+.controls button:hover{
+    background:#8f0000;
+}
+
+#result{
+margin:18px 12px 26px 12px;
+font-size:20px;
+color:gold;
+min-height:28px;
+}
+
+#explosion{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+font-size:48px;
+display:none;
+z-index:999;
+}
+
+.particle{
+    position:absolute;
+    animation:explode 1.05s linear forwards;
+}
+
+@keyframes explode{
+    0%{transform:translate(0,0); opacity:1}
+    100%{transform:translate(var(--x), var(--y)); opacity:0}
+}
+
+/* Bonus overlay */
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.7);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+}
+
+.hidden{ display:none; }
+
+.overlayCard{
+    width:min(520px, 92vw);
+    border:2px solid gold;
+    border-radius:18px;
+    background:#101012;
+    padding:18px;
+    box-shadow:0 0 26px rgba(255,215,0,0.25);
+}
+
+.overlayTitle{
+    color:gold;
+    font-size:26px;
+    margin-bottom:10px;
+}
+
+.overlayText{
+    color:#ddd;
+    margin-bottom:14px;
+}
+
+.chests{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+}
+
+.chestBtn{
+    background:#1c1c20;
+    color:white;
+    border:2px solid #4a4a52;
+    padding:12px 14px;
+    border-radius:14px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.chestBtn:hover{
+    border-color:gold;
+}
+
+.closeBtn{
+    background:#c10000;
+    color:white;
+    border:none;
+    padding:10px 14px;
+    border-radius:14px;
+    cursor:pointer;
+}
