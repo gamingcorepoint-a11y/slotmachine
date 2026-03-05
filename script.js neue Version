@@ -1,0 +1,241 @@
+let betPerLine = 1
+let autoSpin = false
+let spinning = false
+
+const symbolsAnim = ["🍒","🍋","🔔","⭐","💎","🃏","🌟","🎁"]
+
+function $(id){ return document.getElementById(id) }
+
+function safePlay(audioEl){
+try{audioEl.currentTime=0;audioEl.play()}catch(e){}
+}
+
+function clearHighlights(){
+document.querySelectorAll(".cell").forEach(c=>{
+c.classList.remove("win")
+c.classList.remove("payline")
+})
+}
+
+function highlightWinningLines(lines){
+
+if(!lines)return
+
+lines.forEach(line=>{
+
+line.cells.forEach(pos=>{
+
+let r=pos[0]
+let c=pos[1]
+
+let cell=$("c"+r+c)
+
+if(cell){
+cell.classList.add("win")
+cell.classList.add("payline")
+}
+
+})
+
+})
+
+}
+
+function jackpotExplosion(){
+
+let container=$("explosion")
+container.innerHTML=""
+container.style.display="block"
+
+let emojis=["💎","✨","💰","🎉"]
+
+for(let i=0;i<40;i++){
+
+let p=document.createElement("div")
+p.className="particle"
+p.innerText=emojis[Math.floor(Math.random()*emojis.length)]
+
+p.style.left=Math.random()*100+"%"
+p.style.top=Math.random()*100+"%"
+
+p.style.setProperty("--x",(Math.random()*400-200)+"px")
+p.style.setProperty("--y",(Math.random()*400-200)+"px")
+
+container.appendChild(p)
+
+}
+
+setTimeout(()=>{
+container.style.display="none"
+},1000)
+
+}
+
+function setBet(value){
+
+betPerLine=value
+
+document.querySelectorAll(".betbtn").forEach(b=>{
+b.classList.remove("active")
+})
+
+document.querySelector(`.betbtn[data-bet="${value}"]`).classList.add("active")
+
+}
+
+function renderGrid(grid){
+
+for(let r=0;r<3;r++){
+for(let c=0;c<5;c++){
+
+$("c"+r+c).innerText=grid[r][c]
+
+}
+}
+
+}
+
+function startAnimation(){
+
+return setInterval(()=>{
+
+for(let r=0;r<3;r++){
+for(let c=0;c<5;c++){
+
+$("c"+r+c).innerText=
+symbolsAnim[Math.floor(Math.random()*symbolsAnim.length)]
+
+}
+}
+
+},70)
+
+}
+
+async function spin(){
+
+if(spinning)return
+
+spinning=true
+
+clearHighlights()
+
+safePlay($("spinSound"))
+
+let anim=startAnimation()
+
+try{
+
+let res=await fetch(`/spin?bet=${betPerLine}`)
+let data=await res.json()
+
+setTimeout(()=>{
+
+clearInterval(anim)
+
+if(data.error){
+
+$("result").innerText="❌ Not enough coins"
+autoSpin=false
+spinning=false
+return
+
+}
+
+renderGrid(data.grid)
+
+$("coins").innerText=data.coins
+$("freespins").innerText=data.free_spins
+$("jackpot").innerText=data.jackpot
+
+$("spins").innerText=data.stats.spins
+$("wins").innerText=data.stats.wins
+$("bigwin").innerText=data.stats.biggest
+
+if(data.win){
+
+if(data.jackpot_won){
+
+safePlay($("jackpotSound"))
+jackpotExplosion()
+
+$("result").innerText="💎 JACKPOT "+data.jackpot_amount
+
+}else if(data.reward>=200){
+
+safePlay($("jackpotSound"))
+
+$("result").innerText="💥 BIG WIN "+data.reward
+
+}else{
+
+safePlay($("winSound"))
+
+$("result").innerText="🎉 WIN "+data.reward
+
+}
+
+highlightWinningLines(data.winning_lines)
+
+}else{
+
+$("result").innerText="NO WIN"
+
+}
+
+spinning=false
+
+// 🔁 ENDLESS AUTOSPIN
+if(autoSpin){
+
+setTimeout(()=>{
+spin()
+},1200)
+
+}
+
+},900)
+
+}catch(e){
+
+clearInterval(anim)
+$("result").innerText="ERROR"
+spinning=false
+autoSpin=false
+
+}
+
+}
+
+function startAuto(){
+
+autoSpin=true
+spin()
+
+}
+
+function stopAuto(){
+
+autoSpin=false
+
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+setBet(1)
+
+$("spinBtn").addEventListener("click",spin)
+
+document.querySelectorAll(".betbtn").forEach(btn=>{
+btn.addEventListener("click",()=>{
+setBet(Number(btn.dataset.bet))
+})
+})
+
+document.querySelectorAll(".autobtn").forEach(btn=>{
+btn.addEventListener("click",startAuto)
+})
+
+$("stopAutoBtn").addEventListener("click",stopAuto)
+
+})
